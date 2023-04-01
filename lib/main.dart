@@ -1,9 +1,9 @@
-import 'package:bloc_example/cubits/internet_cubit.dart';
-import 'package:bloc_example/views/home_view.dart';
-import 'package:bloc_example/views/signin/bloc/signin_bloc.dart';
-import 'package:bloc_example/views/signin/signin_view.dart';
+import 'package:bloc_example/data/repositories/post_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'logic/cubits/post_cubit/post_cubit.dart';
+import 'presentation/screens/home_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,18 +14,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      // providers: [
-      //   // BlocProvider<InternetCubit>(create: (context) => InternetCubit())
-      //   BlocProvider<SigninBloc>(create: (context) => SigninBloc())
-      // ],
+    PostRepository().fetchPosts();
+    return BlocProvider(
+      create: (context) => PostCubit(),
       child: MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: SiginView() //HomeView(),
-      ),
+          title: 'Flutter Demo',
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          home: const HomeScreen() //HomeView(),
+          ),
     );
   }
 }
